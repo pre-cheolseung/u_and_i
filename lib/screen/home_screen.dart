@@ -28,22 +28,28 @@ class HomeScreen extends StatelessWidget {
 class _DDay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // 설정한 테마 호출
+    final TextTheme = Theme.of(context).textTheme;
+
     return Column(
       children: [
         const SizedBox(
           height: 16.0,
         ),
         Text(   // 최상단 글자
-          'U & I',
+          'U&I',
+          style: TextTheme.displayLarge,   // headline1 스타일 적용
         ),
         const SizedBox(
           height: 16.0,
         ),
         Text(   // 두 번째 글자
           'The Day We First Met',
+          style: TextTheme.bodyLarge,   // bodyText1 스타일 적용
         ),
         Text(   // 임시로 지정한 만난 날짜
-          '2026.10.23'
+          '2026.10.23',
+          style: TextTheme.bodyMedium,   // bodyText2 스타일 적용
         ),
         const SizedBox(
           height: 16.0,
@@ -52,6 +58,7 @@ class _DDay extends StatelessWidget {
           onPressed: () {},
           icon: Icon(
             Icons.favorite,
+            color: Colors.red,   // 빨간색으로 색상 변경
           ),
           iconSize: 60.0,
         ),
@@ -60,6 +67,7 @@ class _DDay extends StatelessWidget {
         ),
         Text(   // 만난 후 D-Day
           'D + 365',
+          style: TextTheme.displayMedium,   // headline2 스타일 적용
         ),
       ],
     );
