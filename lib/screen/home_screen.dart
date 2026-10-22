@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // 상단 상태바 아이콘 색상 (밝게: light, 어둡게: dark)
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
+
     return Scaffold(
       backgroundColor: Color(0xFFF8BBD0),   // 파스텔톤 핑크 배경색 적용
       body: SafeArea(   // 시스템 UI 피해서 화면에 출력
