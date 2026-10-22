@@ -2,78 +2,93 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);   // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
 
-  // @override
-  // State<HomeScreen> createState() => _HomeScreenState();
   @override
+  // State<HomeScreen> createState() => _HomeScreenState();
   State<HomeScreen> createState() {
     return _HomeScreenState();
   }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  DateTime firstDay = DateTime.now();
+
   @override
   Widget build(BuildContext context) {
-    // 상단 상태바 아이콘 색상 (밝게: light, 어둡게: dark)
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);   // 상단 상태바 아이콘 색상 (밝게: light, 어둡게: dark)
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.light,   // 상단 상태바 아이콘 색상 (밝게: light, 어둡게: dark)
       ),
     );
 
     return Scaffold(
       backgroundColor: Color(0xFFF8BBD0),   // 파스텔톤 핑크 배경색 적용
-      body: SafeArea(   // 시스템 UI 피해서 화면에 출력
+      // 시스템 UI 피해서 화면에 출력
+      body: SafeArea(
         top: true,
         bottom: false,
         child: Column(
-          // 상단 및 하단 끝에 위젯 배치
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          // 반대축 최대 크기로 확장
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,   // 상단 및 하단 끝에 위젯 배치
+          crossAxisAlignment: CrossAxisAlignment.stretch,   // 반대축 최대 크기로 확장
           children: [
-            _DDay(),
+            _DDay(
+              onHeartPressed: onHeartPressed,   // 하트 눌렀을 때 실행할 함수 전달
+            ),
             _CoupleImage(),
           ],
         ),
       ),
     );
   }
+
+  // 하트 눌렀을 때 실행할 함수
+  void onHeartPressed() {
+    print('Click!');
+  }
 }
 
 class _DDay extends StatelessWidget {
+  final GestureTapCallback onHeartPressed;   // 하트 눌렀을 때 실행할 함수
+
+  _DDay({
+    required this.onHeartPressed,   // 상위에서 함수 입력받음
+  });
+
   @override
   Widget build(BuildContext context) {
-    // 설정한 테마 호출
-    final TextTheme = Theme.of(context).textTheme;
+    final TextTheme = Theme.of(context).textTheme;   // 설정한 테마 호출
 
     return Column(
       children: [
         const SizedBox(
           height: 16.0,
         ),
-        Text(   // 최상단 글자
+        // 최상단 글자
+        Text(
           'U&I',
           style: TextTheme.displayLarge,   // headline1 스타일 적용
         ),
         const SizedBox(
           height: 16.0,
         ),
-        Text(   // 두 번째 글자
+        // 두 번째 글자
+        Text(
           'The Day We First Met',
           style: TextTheme.bodyLarge,   // bodyText1 스타일 적용
         ),
-        Text(   // 임시로 지정한 만난 날짜
+        // 임시로 지정한 만난 날짜
+        Text(
           '2026.10.23',
           style: TextTheme.bodyMedium,   // bodyText2 스타일 적용
         ),
         const SizedBox(
           height: 16.0,
         ),
-        IconButton(   // 하트 아이콘 버튼
-          onPressed: () {},
+        // 하트 아이콘 버튼
+        IconButton(
+          onPressed: onHeartPressed,   // 아이콘 눌렀을 때 실행할 함수
           icon: Icon(
             Icons.favorite,
             color: Colors.red,   // 빨간색으로 색상 변경
@@ -83,7 +98,8 @@ class _DDay extends StatelessWidget {
         const SizedBox(
           height: 16.0,
         ),
-        Text(   // 만난 후 D-Day
+        // 만난 후 D-Day
+        Text(
           'D + 365',
           style: TextTheme.displayMedium,   // headline2 스타일 적용
         ),
@@ -97,7 +113,8 @@ class _CoupleImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),   // 양옆 여백을 20으로 설정
-      child: Center(   // 이미지 중앙 정렬
+      // 중앙 정렬
+      child: Center(
         child: Image.asset(
           'assets/img/middle_image.png',
           height: MediaQuery.of(context).size.height / 2,   // 화면의 반만큼 높이 구현
