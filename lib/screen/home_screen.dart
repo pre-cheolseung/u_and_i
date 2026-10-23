@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateTime firstDay = DateTime.now();
+  DateTime firstDay = DateTime.now();   // 시작일
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 하트 눌렀을 때 실행할 함수
   void onHeartPressed() {
-    print('Click!');
+    // 상태 변경 시 setState() 함수 실행
+    // 값 변경 시 build() 함수 재실행
+    // Clean -> setState() -> Dirty -> build() -> Clean
+    setState(() {
+      firstDay = firstDay.subtract(Duration(days: 1));   // firstDay 변수에서 1일 차감
+    });
   }
 }
 
