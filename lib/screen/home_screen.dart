@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';   // 쿠퍼티노 (iOS) 위젯 사용
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -46,12 +47,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 하트 눌렀을 때 실행할 함수
   void onHeartPressed() {
-    // 상태 변경 시 setState() 함수 실행
-    // 값 변경 시 build() 함수 재실행
-    // Clean -> setState() -> Dirty -> build() -> Clean
-    setState(() {
-      firstDay = firstDay.subtract(Duration(days: 1));   // firstDay 변수에서 1일 차감
-    });
+    // // 상태 변경 시 setState() 함수 실행
+    // // 값 변경 시 build() 함수 재실행
+    // // Clean -> setState() -> Dirty -> build() -> Clean
+    // setState(() {
+    //   firstDay = firstDay.subtract(Duration(days: 1));   // firstDay 변수에서 1일 차감
+    // });
+
+    // 쿠퍼티노 다이얼로그 실행
+    showCupertinoDialog(
+      context: context,   // 보여줄 다이얼로그 빌드
+      builder: (BuildContext context) {
+        // 날짜 선택하는 다이얼로그
+        return CupertinoDatePicker(
+          onDateTimeChanged: (DateTime date) {},
+          mode: CupertinoDatePickerMode.date,   // 시간 제외하고 날짜만 선택
+        );
+      },
+    );
   }
 }
 
