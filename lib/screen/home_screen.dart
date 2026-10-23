@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             _DDay(
               onHeartPressed: onHeartPressed,   // 하트 눌렀을 때 실행할 함수 전달
+              firstDay: firstDay,
             ),
             _CoupleImage(),
           ],
@@ -50,29 +51,28 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _DDay extends StatelessWidget {
-  final GestureTapCallback onHeartPressed;   // 하트 눌렀을 때 실행할 함수
+  final GestureTapCallback onHeartPressed;   // 하트 눌렀을 때 실행할 함수 변수로 선언
+  final DateTime firstDay;   // 시작일 변수로 선언
 
   _DDay({
-    required this.onHeartPressed,   // 상위에서 함수 입력받음
+    required this.onHeartPressed,   // 상위에서 하트 눌렀을 때 실행할 함수 수신
+    required this.firstDay,   // 상위에서 시작일 변수로 수신
   });
 
   @override
   Widget build(BuildContext context) {
     final TextTheme = Theme.of(context).textTheme;   // 설정한 테마 호출
+    final now = DateTime.now();   // 현재 날짜 및 시간
 
     return Column(
       children: [
-        const SizedBox(
-          height: 16.0,
-        ),
+        const SizedBox(height: 16.0),
         // 최상단 글자
         Text(
           'U&I',
           style: TextTheme.displayLarge,   // headline1 스타일 적용
         ),
-        const SizedBox(
-          height: 16.0,
-        ),
+        const SizedBox(height: 16.0),
         // 두 번째 글자
         Text(
           'The Day We First Met',
@@ -80,27 +80,23 @@ class _DDay extends StatelessWidget {
         ),
         // 임시로 지정한 만난 날짜
         Text(
-          '2026.10.23',
+          '${firstDay.year}.${firstDay.month}.${firstDay.day}',   // DateTime을 년.월.일 형태로 변경
           style: TextTheme.bodyMedium,   // bodyText2 스타일 적용
         ),
-        const SizedBox(
-          height: 16.0,
-        ),
+        const SizedBox(height: 16.0),
         // 하트 아이콘 버튼
         IconButton(
           onPressed: onHeartPressed,   // 아이콘 눌렀을 때 실행할 함수
           icon: Icon(
             Icons.favorite,
-            color: Colors.red,   // 빨간색으로 색상 변경
+            color: Colors.red,   // 색상 변경
           ),
           iconSize: 60.0,
         ),
-        const SizedBox(
-          height: 16.0,
-        ),
-        // 만난 후 D-Day
+        const SizedBox(height: 16.0),
+        // 만난 후 DDay
         Text(
-          'D + 365',
+          'D+${DateTime(now.year, now.month, now.day).difference(firstDay).inDays + 1}',   // DDay 계산
           style: TextTheme.displayMedium,   // headline2 스타일 적용
         ),
       ],
