@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';   // 쿠퍼티노 (iOS) 위젯 사용
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:u_and_i/widget/couple_image.dart';
 import 'package:u_and_i/widget/d_minus_day.dart';
 import 'package:u_and_i/widget/d_plus_day.dart';
@@ -17,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateTime specifiedDate = DateTime.now();   // 지정일
+  DateTime specifiedDate = DateTime.now();   // 지정일 (기본 값은 오늘 날짜)
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,32 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  final String _storageKey = 'saved_date';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedDate(); // 앱 실행 시 저장된 날짜 불러오기
+  }
+
+  // 저장된 날짜 호출
+  Future<void> _loadSavedDate() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedDateStr = prefs.getString(_storageKey);
+
+    if (savedDateStr != null) {
+      setState(() {
+        specifiedDate = DateTime.parse(savedDateStr);
+      });
+    }
+  }
+
+  // 선택한 날짜 저장
+  Future<void> _saveDate(DateTime date) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_storageKey, date.toIso8601String());   // DateTime을 문자열 형식으로 변환하여 저장
+  }
+
   // 하트 눌렀을 때 실행할 함수
   void onHeartPressed() {
     // 상태 변경 시 setState() 함수 실행
@@ -64,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //   specifiedDate = specifiedDate.subtract(Duration(days: 1));   // specifiedDate 변수에서 1일 차감
     // });
 
-    // 쿠퍼티노 다이얼로그 실행
+    // 쿠퍼티노 날짜 선택 다이얼로그 실행
     showCupertinoDialog(
       context: context,   // 보여줄 다이얼로그 빌드
       builder: (BuildContext context) {
@@ -76,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.white,   // 배경색 지정
             height: 300,   // 높이 지정
             child: CupertinoDatePicker(
-              initialDateTime: DateTime.now(),   // 초기 선택 날짜 (오늘)
+              initialDateTime: specifiedDate,   // 초기 선택 날짜 (저장된 날짜)
               maximumDate: DateTime.now(),   // 미래 날짜 선택 불가
               // 날짜가 변경되면 실행되는 함수
               onDateTimeChanged: (DateTime date) {
@@ -86,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 setState(() {
                   specifiedDate = date;
                 });
+                _saveDate(date);   // 날짜가 변경될 때마다 로컬에 저장
               },
               mode: CupertinoDatePickerMode.date,   // 시간 제외하고 날짜만 선택
             ),
