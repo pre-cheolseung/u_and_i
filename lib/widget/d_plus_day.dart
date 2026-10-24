@@ -57,7 +57,9 @@ class D_Plus_Day extends StatelessWidget {
           stream: Stream.periodic(const Duration(seconds: 1), (_) => DateTime.now()),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const CircularProgressIndicator();
+              return const CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Color(0xFFCDB3FF)),   // 색상 지정
+              );
             }
 
             final DateTime now = snapshot.data!;   // 현재 날짜 및 시간
