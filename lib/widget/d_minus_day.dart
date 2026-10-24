@@ -2,19 +2,28 @@ import 'package:flutter/cupertino.dart';   // 쿠퍼티노 (iOS) 위젯 사용
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class DDay extends StatelessWidget {
+class D_Minus_Day extends StatelessWidget {
   final GestureTapCallback onHeartPressed;   // 하트 눌렀을 때 실행할 함수 변수로 선언
-  final DateTime firstDay;   // 시작일 변수로 선언
+  final DateTime specifiedDate;   // 지정일 변수로 선언
 
-  DDay({
+  D_Minus_Day({
     required this.onHeartPressed,   // 상위에서 하트 눌렀을 때 실행할 함수 수신
-    required this.firstDay,   // 상위에서 시작일 변수로 수신
+    required this.specifiedDate,   // 상위에서 시작일 변수로 수신
   });
 
   @override
   Widget build(BuildContext context) {
     final TextTheme = Theme.of(context).textTheme;   // 설정한 테마 호출
     final now = DateTime.now();   // 현재 날짜 및 시간
+    final int differenceDays = DateTime(specifiedDate.year, specifiedDate.month, specifiedDate.day)
+                                        .difference(DateTime(now.year, now.month, now.day))
+                                        .inDays;   // 지정일과 현재의 날짜 차이를 년.월.일 형태로 변경
+    // 경우에 따른 출력 형태
+    final String displayText = differenceDays == 0 
+        ? 'D-Day' 
+        : differenceDays > 0 
+            ? 'D-$differenceDays' 
+            : 'D+${differenceDays.abs()}';
 
     return Column(
       children: [
@@ -27,12 +36,12 @@ class DDay extends StatelessWidget {
         const SizedBox(height: 16.0),
         // 두 번째 글자
         Text(
-          'The Day We First Met',
+          'A Special Day',
           style: TextTheme.bodyLarge,   // bodyText1 스타일 적용
         ),
-        // 처음 만난 날짜
+        // 지정일
         Text(
-          '${firstDay.year}.${firstDay.month}.${firstDay.day}',   // DateTime을 년.월.일 형태로 변경
+          '${specifiedDate.year}.${specifiedDate.month}.${specifiedDate.day}',   // DateTime을 년.월.일 형태로 변경
           style: TextTheme.bodyMedium,   // bodyText2 스타일 적용
         ),
         const SizedBox(height: 16.0),
@@ -46,9 +55,9 @@ class DDay extends StatelessWidget {
           iconSize: 60.0,
         ),
         const SizedBox(height: 16.0),
-        // 만난 후 DDay
+        // 지정일로부터 D-Day
         Text(
-          'D+${DateTime(now.year, now.month, now.day).difference(firstDay).inDays + 1}',   // DDay 계산
+          displayText,   // D-Day 출력
           style: TextTheme.displayMedium,   // headline2 스타일 적용
         ),
         const SizedBox(height: 16.0),
@@ -61,12 +70,15 @@ class DDay extends StatelessWidget {
             }
 
             final DateTime now = snapshot.data!;   // 현재 날짜 및 시간
-            final Duration difference = now.difference(firstDay);   // 현재와 처음 만난 날짜 및 시간의 차이
+            final Duration difference = specifiedDate.difference(now);   // 지정일과 현재의 날짜 및 시간 차이
 
-            // // 차이가 음수일 경우 (이미 지난 시간 처리 등)
-            // if (diff.isNegative) {
-            //   return const Text('Already past the time');
-            // }
+            // D-Day 당일 시간 미출력
+            if (difference.inDays == 0 && difference.inHours <= 24 && difference.inDays <= 60 && difference.inSeconds <= 60) {
+              return const Text('');
+            // D+Day 출력 문구 (차이가 음수일 경우)
+            } else if (difference.isNegative) {
+              return const Text('Already past the time');
+            }
 
             // 원하는 포맷으로 가공
             final int days = difference.inDays;
@@ -74,7 +86,7 @@ class DDay extends StatelessWidget {
             final int minutes = difference.inMinutes.remainder(60);   // difference.inMinutes % 60
             final int seconds = difference.inSeconds.remainder(60);   // difference.inSeconds % 60
 
-            // // padLeft(2, '0')를 사용해 두 자릿수로 맞춤
+            // padLeft(2, '0')를 사용해 두 자릿수로 맞춤
             // final String formattedTime = [
             //   days.toString().padLeft(2, '0'),
             //   hours.toString().padLeft(2, '0'),
@@ -82,9 +94,9 @@ class DDay extends StatelessWidget {
             //   seconds.toString().padLeft(2, '0'),
             // ].join(':');
 
-            // // padLeft(2, '0')를 사용해 두 자릿수로 맞춤
+            // padLeft(2, '0')를 사용해 두 자릿수로 맞춤
             final String formattedTime =
-              'Meeting for\n'
+              'After\n'
               '${days.toString()} days '
               '${hours.toString().padLeft(2, '0')} hours '
               '${minutes.toString().padLeft(2, '0')} minutes '

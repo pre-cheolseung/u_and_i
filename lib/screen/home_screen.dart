@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:u_and_i/widget/couple_image.dart';
-import 'package:u_and_i/widget/dday.dart';
+import 'package:u_and_i/widget/d_minus_day.dart';
+import 'package:u_and_i/widget/d_plus_day.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);   // const 생성자 : 최초 선언 후 변경 불가능한 빌드 타임 함수
@@ -16,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DateTime firstDay = DateTime.now();   // 시작일
+  DateTime specifiedDate = DateTime.now();   // 지정일
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +38,15 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,   // 상단 및 하단 끝에 위젯 배치
           crossAxisAlignment: CrossAxisAlignment.stretch,   // 반대축 최대 크기로 확장
           children: [
-            DDay(
+            // D-Day
+            // D_Minus_Day(
+            //   onHeartPressed: onHeartPressed,   // 하트 눌렀을 때 실행할 함수 전달
+            //   specifiedDate: specifiedDate,
+            // ),
+            // D+Day
+            D_Plus_Day(
               onHeartPressed: onHeartPressed,   // 하트 눌렀을 때 실행할 함수 전달
-              firstDay: firstDay,
+              specifiedDate: specifiedDate,
             ),
             CoupleImage(),
           ],
@@ -50,11 +57,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 하트 눌렀을 때 실행할 함수
   void onHeartPressed() {
-    // // 상태 변경 시 setState() 함수 실행
-    // // 값 변경 시 build() 함수 재실행
-    // // Clean -> setState() -> Dirty -> build() -> Clean
+    // 상태 변경 시 setState() 함수 실행
+    // 값 변경 시 build() 함수 재실행
+    // Clean -> setState() -> Dirty -> build() -> Clean
     // setState(() {
-    //   firstDay = firstDay.subtract(Duration(days: 1));   // firstDay 변수에서 1일 차감
+    //   specifiedDate = specifiedDate.subtract(Duration(days: 1));   // specifiedDate 변수에서 1일 차감
     // });
 
     // 쿠퍼티노 다이얼로그 실행
@@ -75,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 // 값 변경 시 build() 함수 재실행
                 // Clean -> setState() -> Dirty -> build() -> Clean
                 setState(() {
-                  firstDay = date;
+                  specifiedDate = date;
                 });
               },
               mode: CupertinoDatePickerMode.date,   // 시간 제외하고 날짜만 선택
