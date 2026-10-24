@@ -76,6 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.white,   // 배경색 지정
             height: 300,   // 높이 지정
             child: CupertinoDatePicker(
+              initialDateTime: DateTime.now(),   // 초기 선택 날짜 (오늘)
+              maximumDate: DateTime.now(),   // 미래 날짜 선택 불가
               // 날짜가 변경되면 실행되는 함수
               onDateTimeChanged: (DateTime date) {
                 // 상태 변경 시 setState() 함수 실행
