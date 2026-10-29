@@ -71,6 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final savedDateStr = prefs.getString(_storageKey);
 
     if (savedDateStr != null) {
+      // 상태 변경 시 setState() 함수 실행
+      // 값 변경 시 build() 함수 재실행
+      // Clean -> setState() -> Dirty -> build() -> Clean
       setState(() {
         specifiedDate = DateTime.parse(savedDateStr);
       });
