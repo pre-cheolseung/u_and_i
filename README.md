@@ -1,17 +1,28 @@
-# u_and_i
+# U&I
 
-A new Flutter project.
+An app that lets you set a date and tells you how many days have passed since it.
 
-## Getting Started
+- Flutter 3.47.7
+- Dart 3.13.5
 
-This project is a starting point for a Flutter application.
+## Preparation
 
-A few resources to get you started if this is your first Flutter project:
+- StatefulWidget status management
+    - setState function
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Key Components
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Cupertino Widget
+- CupertinoDatePicker
+- Duration
+    - Current time formatting.
+- MediaQuery
+- ThemeData
+- GestureTapCallback
+- Dialog
+
+## Additional Components
+
+- CircularProgressIndicator
+- StreamBuilder
+    - A stream that passes the current time every second.
